@@ -1,3 +1,4 @@
+import '../auth/options.dart';
 import '../connection/protocol/message_types.dart';
 import '../events/dispatcher.dart';
 import '../pusher.dart';
@@ -15,7 +16,10 @@ extension type Channel._(Dispatcher _) implements Dispatcher {
 
   external bool subscriptionCancelled;
 
-  //   authorize(socketId: string, callback: ChannelAuthorizationCallback): void;
+  external void authorize(
+    String socketId,
+    ChannelAuthorizationCallback callback,
+  );
 
   external bool trigger(String event, [dynamic data]);
 

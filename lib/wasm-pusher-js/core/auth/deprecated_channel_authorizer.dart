@@ -3,9 +3,11 @@ import 'dart:js_interop';
 import '../channels/channel.dart';
 import 'options.dart';
 
-extension type DeprecatedChannelAuthorizer(JSObject _) implements JSObject {
+extension type DeprecatedChannelAuthorizer._(JSObject _) implements JSObject {
   external void authorize(
-      String socketId, ChannelAuthorizationCallback callback);
+    String socketId,
+    ChannelAuthorizationCallback callback,
+  );
 }
 
 typedef ChannelAuthorizerGenerator = DeprecatedChannelAuthorizer Function(

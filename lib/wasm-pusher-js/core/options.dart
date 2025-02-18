@@ -1,9 +1,37 @@
 import 'dart:js_interop';
 
 import 'auth/deprecated_channel_authorizer.dart';
+import 'auth/options.dart';
 
 extension type Options._(JSObject _) implements JSObject {
-  external Options();
+  external Options({
+    num? activityTimeout,
+    DeprecatedAuthOptions? auth,
+    String? authEndpoint,
+    String? authTransport,
+    ChannelAuthorizerGenerator? authorizer,
+    ChannelAuthorizationOptions? channelAuthorization,
+    UserAuthenticationOptions? userAuthentication,
+    String? cluster,
+    bool? enableStats,
+    bool? disableStats,
+    List<String>? disabledTransports,
+    List<String>? enabledTransports,
+    bool? forceTLS,
+    String? httpHost,
+    String? httpPath,
+    num? httpPort,
+    bool? ignoreNullOrigin,
+    // Nacl? nacl;
+    num? pongTimeout,
+    String? statsHost,
+    dynamic timelineParams,
+    num? unavailableTimeout,
+    String? wsHost,
+    String? wsPath,
+    num? wsPort,
+    num? wssPort,
+  });
 
   external num? activityTimeout;
 
@@ -20,9 +48,9 @@ extension type Options._(JSObject _) implements JSObject {
   @Deprecated('Use channelAuthorization instead')
   external ChannelAuthorizerGenerator? authorizer;
 
-  // channelAuthorization?: ChannelAuthorizationOptions;
+  external ChannelAuthorizationOptions? channelAuthorization;
 
-  // userAuthentication?: UserAuthenticationOptions;
+  external UserAuthenticationOptions? userAuthentication;
 
   external String? cluster;
 
@@ -46,7 +74,7 @@ extension type Options._(JSObject _) implements JSObject {
 
   external bool? ignoreNullOrigin;
 
-  // nacl?: nacl;
+  // external Nacl? nacl;
 
   external num? pongTimeout;
 

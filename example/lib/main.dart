@@ -50,10 +50,10 @@ class _MyAppState extends State<MyApp> {
     }
     // Remove keyboard
     FocusScope.of(context).requestFocus(FocusNode());
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("apiKey", _apiKey.text);
-    prefs.setString("cluster", _cluster.text);
-    prefs.setString("channelName", _channelName.text);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString("apiKey", _apiKey.text);
+    // prefs.setString("cluster", _cluster.text);
+    // prefs.setString("channelName", _channelName.text);
 
     try {
       await pusher.init(
@@ -145,14 +145,14 @@ class _MyAppState extends State<MyApp> {
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _apiKey.text = prefs.getString("apiKey") ?? '';
-      _cluster.text = prefs.getString("cluster") ?? 'eu';
-      _channelName.text = prefs.getString("channelName") ?? 'my-channel';
-      _eventName.text = prefs.getString("eventName") ?? 'client-event';
-      _data.text = prefs.getString("data") ?? 'test';
-    });
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // setState(() {
+    //   _apiKey.text = prefs.getString("apiKey") ?? '';
+    //   _cluster.text = prefs.getString("cluster") ?? 'eu';
+    //   _channelName.text = prefs.getString("channelName") ?? 'my-channel';
+    //   _eventName.text = prefs.getString("eventName") ?? 'client-event';
+    //   _data.text = prefs.getString("data") ?? 'test';
+    // });
   }
 
   @override
