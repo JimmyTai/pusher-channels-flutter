@@ -22,5 +22,5 @@ extension type TimelineSender._(JSObject _) implements JSObject {
 
   external String host;
 
-  external void send(bool useTls, [Function? callback]);
+  external void send(bool useTls, [JSFunction? callback]);
 }

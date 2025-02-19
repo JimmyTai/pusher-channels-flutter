@@ -16,12 +16,12 @@ extension type Connection._(Dispatcher _) implements Dispatcher {
 
   external bool handlesActivityChecks();
 
-  external bool send(dynamic data);
+  external bool send(JSAny data);
 
   @JS('send_event')
   external bool sendEvent(
     String name,
-    dynamic data, [
+    JSAny data, [
     String? channel,
   ]);
 

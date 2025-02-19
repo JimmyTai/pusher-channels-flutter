@@ -5,5 +5,5 @@ import 'strategy_runner.dart';
 extension type Strategy._(JSObject _) implements JSObject {
   external bool isSupported();
 
-  external StrategyRunner connect(num minPriority, Function callback);
+  external StrategyRunner connect(num minPriority, JSFunction callback);
 }

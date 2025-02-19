@@ -1,18 +1,16 @@
 import 'dart:js_interop';
 
-import 'level.dart';
-
 extension type TimelineOptions._(JSObject _) implements JSObject {
   external TimelineOptions({
-    TimelineLevel? level,
+    JSNumber? level,
     num? limit,
     String? version,
     String? cluster,
-    List<String>? features,
-    dynamic params,
+    JSArray<JSString>? features,
+    JSAny params,
   });
 
-  external TimelineLevel? level;
+  external JSNumber? level;
 
   external num? limit;
 
@@ -20,9 +18,9 @@ extension type TimelineOptions._(JSObject _) implements JSObject {
 
   external String? cluster;
 
-  external List<String>? features;
+  external JSArray<JSString>? features;
 
-  external dynamic params;
+  external JSAny params;
 }
 
 extension type Timeline._(JSObject _) implements JSObject {
@@ -36,7 +34,7 @@ extension type Timeline._(JSObject _) implements JSObject {
 
   external num session;
 
-  external List<dynamic> events;
+  external JSArray<JSAny> events;
 
   external TimelineOptions options;
 
@@ -45,17 +43,17 @@ extension type Timeline._(JSObject _) implements JSObject {
   @JS('uniqueID')
   external num uniqueId;
 
-  external void log(dynamic level, dynamic event);
+  external void log(JSAny level, JSAny event);
 
-  external void error(dynamic event);
+  external void error(JSAny event);
 
-  external void info(dynamic event);
+  external void info(JSAny event);
 
-  external void debug(dynamic event);
+  external void debug(JSAny event);
 
   external bool isEmpty();
 
-  external bool send(dynamic sendfn, dynamic callback);
+  external bool send(JSAny sendfn, JSAny callback);
 
   @JS('generateUniqueID')
   external num generationUniqueId();

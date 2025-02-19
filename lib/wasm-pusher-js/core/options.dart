@@ -15,8 +15,8 @@ extension type Options._(JSObject _) implements JSObject {
     String? cluster,
     bool? enableStats,
     bool? disableStats,
-    List<String>? disabledTransports,
-    List<String>? enabledTransports,
+    JSArray<JSString>? disabledTransports,
+    JSArray<JSString>? enabledTransports,
     bool? forceTLS,
     String? httpHost,
     String? httpPath,
@@ -25,7 +25,7 @@ extension type Options._(JSObject _) implements JSObject {
     // Nacl? nacl;
     num? pongTimeout,
     String? statsHost,
-    dynamic timelineParams,
+    JSAny timelineParams,
     num? unavailableTimeout,
     String? wsHost,
     String? wsPath,
@@ -59,10 +59,10 @@ extension type Options._(JSObject _) implements JSObject {
   external bool? disableStats;
 
   // Allow 'ws' | 'wss' | 'xhr_streaming' | 'xhr_polling' | 'sockjs'
-  external List<String>? disabledTransports;
+  external JSArray<JSString>? disabledTransports;
 
   // Allow 'ws' | 'wss' | 'xhr_streaming' | 'xhr_polling' | 'sockjs'
-  external List<String>? enabledTransports;
+  external JSArray<JSAny>? enabledTransports;
 
   external bool? forceTLS;
 
@@ -80,7 +80,7 @@ extension type Options._(JSObject _) implements JSObject {
 
   external String? statsHost;
 
-  external dynamic timelineParams;
+  external JSAny timelineParams;
 
   external num? unavailableTimeout;
 

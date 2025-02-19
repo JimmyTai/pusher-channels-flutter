@@ -4,7 +4,7 @@ import '../channels/metadata.dart';
 import 'callback_registry.dart';
 
 extension type Dispatcher._(JSObject _) implements JSObject {
-  external Dispatcher([Function? failThrough]);
+  external Dispatcher([JSFunction? failThrough]);
 
   external CallbackRegistry callbacks;
 
@@ -13,21 +13,20 @@ extension type Dispatcher._(JSObject _) implements JSObject {
 
   external JSFunction failThrough;
 
-  external Dispatcher bind(String eventName, Function callback,
-      [dynamic context]);
+  external Dispatcher bind(String eventName, JSFunction callback,
+      [JSAny context]);
 
   @JS('bind_global')
-  external Dispatcher bindGlobal(Function callback);
+  external Dispatcher bindGlobal(JSFunction callback);
 
   external Dispatcher unbind(
-      [String? eventName, Function? callback, dynamic context]);
+      [String? eventName, JSFunction? callback, JSAny context]);
 
   @JS('unbind_global')
-  external Dispatcher unbindGlobal([Function? callback]);
+  external Dispatcher unbindGlobal([JSFunction? callback]);
 
   @JS('unbind_all')
   external Dispatcher unbindAll();
 
-  external Dispatcher emit(String eventName,
-      [dynamic data, Metadata? metadata]);
+  external Dispatcher emit(String eventName, [JSAny data, Metadata? metadata]);
 }

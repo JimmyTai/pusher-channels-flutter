@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import '../auth/options.dart';
 import '../connection/protocol/message_types.dart';
 import '../events/dispatcher.dart';
@@ -21,7 +23,7 @@ extension type Channel._(Dispatcher _) implements Dispatcher {
     ChannelAuthorizationCallback callback,
   );
 
-  external bool trigger(String event, [dynamic data]);
+  external bool trigger(String event, [JSAny data]);
 
   external void disconnect();
 

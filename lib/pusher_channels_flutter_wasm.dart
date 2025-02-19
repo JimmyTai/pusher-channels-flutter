@@ -10,12 +10,17 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:js/js_util.dart' as js_util;
 
 import 'wasm-pusher-js/core/auth/deprecated_channel_authorizer.dart';
-import 'wasm-pusher-js/core/auth/options.dart';
 import 'wasm-pusher-js/core/channels/channel.dart';
 import 'wasm-pusher-js/core/channels/presence_channel.dart';
 import 'wasm-pusher-js/core/options.dart';
 import 'wasm-pusher-js/core/pusher.dart';
-import 'wasm-pusher-js/error.dart';
+
+@JS('window')
+external JSWindow window;
+
+extension type JSWindow._(JSObject _) implements JSObject {
+  external Options jimmy;
+}
 
 @JS('JSON.stringify')
 external String stringify(JSObject obj);
@@ -106,7 +111,7 @@ class PusherChannelsFlutterWasm {
     }
   }
 
-  void onError(dynamic jsError) {
+  void onError(JSAny jsError) {
     final Map<String, dynamic> error = dartify<Map<String, dynamic>>(jsError);
 
     if (error['type'] == 'PusherError') {
@@ -118,7 +123,7 @@ class PusherChannelsFlutterWasm {
     }
   }
 
-  void onMessage(dynamic jsMessage) {
+  void onMessage(JSAny jsMessage) {
     final Map<String, dynamic> msg = dartify<Map<String, dynamic>>(jsMessage);
     final String event = msg['event'] ?? '';
     final String channel = msg['channel'] ?? '';
@@ -149,7 +154,10 @@ class PusherChannelsFlutterWasm {
       if (event == 'pusher_internal:subscription_succeeded') {
         if (channel.startsWith('presence-')) {
           final presenceChannel = pusher!.channel(channel) as PresenceChannel;
-          userId = presenceChannel.members.myId;
+          final id = presenceChannel.members.myId;
+          if (id.isA<JSString>()) {
+            userId = (id as JSString).toDart;
+          }
         }
       }
       methodChannel!.invokeMethod('onEvent', {
@@ -161,7 +169,7 @@ class PusherChannelsFlutterWasm {
     }
   }
 
-  void onStateChange(dynamic jsState) {
+  void onStateChange(JSAny jsState) {
     final Map<String, dynamic> state =
         dartify<Map<String, dynamic>>(jsState ?? {});
     final String current = state['current'] ?? '';
@@ -172,32 +180,35 @@ class PusherChannelsFlutterWasm {
     });
   }
 
-  void onConnected(dynamic jsMessage) {}
+  void onConnected(JSAny jsMessage) {}
 
   void onDisconnected() {}
 
   DeprecatedChannelAuthorizer onAuthorizer(
       Channel channel, DeprecatedAuthorizerOptions options) {
     return DeprecatedChannelAuthorizer(
-      authorize: js_util.allowInterop((socketId, callback) async {
-        try {
-          var authData = await methodChannel!.invokeMethod('onAuthorizer', {
-            'socketId': socketId,
-            'channelName': channel.name,
-            'options': options,
-          });
-          callback(
-              null,
-              ChannelAuthorizationData(
-                  auth: authData['auth'],
-                  channelData: authData['channel_data'],
-                  sharedSecret: authData['shared_secret']));
-        } catch (e) {
-          callback(PusherError(name: 'PusherError', message: e.toString()),
-              ChannelAuthorizationData(auth: ''));
-        }
-      }),
-    );
+        // authorize: () {
+
+        // }
+        // authorize: (socketId, callback) {
+        //   try {
+        //     var authData = await methodChannel!.invokeMethod('onAuthorizer', {
+        //       'socketId': socketId,
+        //       'channelName': channel.name,
+        //       'options': options,
+        //     });
+        //     callback(
+        //         null,
+        //         ChannelAuthorizationData(
+        //             auth: authData['auth'],
+        //             channelData: authData['channel_data'],
+        //             sharedSecret: authData['shared_secret']));
+        //   } catch (e) {
+        //     callback(PusherError(e.toString(), -1),
+        //         ChannelAuthorizationData(auth: ''));
+        //   }
+        // },
+        );
   }
 
   void subscribe(MethodCall call) {
@@ -259,15 +270,14 @@ class PusherChannelsFlutterWasm {
       Pusher.logToConsole = call.arguments['logToConsole'];
     }
     if (call.arguments['authorizer'] != null) {
-      options.authorizer = js_util.allowInterop(onAuthorizer);
+      // options.authorizer = js_util.allowInterop(onAuthorizer);
     }
+    window.jimmy = options;
     pusher = Pusher(call.arguments['apiKey'], options);
-    pusher!.connection.bind('error', js_util.allowInterop(onError));
-    pusher!.connection.bind('message', js_util.allowInterop(onMessage));
-    pusher!.connection
-        .bind('state_change', js_util.allowInterop(onStateChange));
-    pusher!.connection.bind('connected', js_util.allowInterop(onConnected));
-    pusher!.connection
-        .bind('disconnected', js_util.allowInterop(onDisconnected));
+    pusher!.connection.bind('error', onError.toJS);
+    pusher!.connection.bind('message', onMessage.toJS);
+    pusher!.connection.bind('state_change', onStateChange.toJS);
+    pusher!.connection.bind('connected', onConnected.toJS);
+    pusher!.connection.bind('disconnected', onDisconnected.toJS);
   }
 }

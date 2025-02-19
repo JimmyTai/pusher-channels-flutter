@@ -18,11 +18,16 @@ extension type ChannelAuthorizationData._(JSObject _) implements JSObject {
   external String? sharedSecret;
 }
 
-@JS()
-typedef ChannelAuthorizationCallback = void Function(
-  PusherError? error,
-  ChannelAuthorizationData? authData,
-);
+extension type ChannelAuthorizationCallback._(JSObject _) implements JSObject {
+  external void call(
+    PusherError? error,
+    ChannelAuthorizationData? authData,
+  );
+}
+// typedef ChannelAuthorizationCallback = void Function(
+//   Error? error,
+//   ChannelAuthorizationData? authData,
+// );
 
 extension type ChannelAuthorizationRequestParams._(JSObject _)
     implements JSObject {
@@ -53,10 +58,17 @@ extension type UserAuthenticationData._(JSObject _) implements JSObject {
   external String userData;
 }
 
-typedef UserAuthenticationCallback = void Function(
-  PusherError? error,
-  UserAuthenticationData? authData,
-);
+extension type UserAuthenticationCallback._(JSObject _) implements JSObject {
+  external void call(
+    PusherError? error,
+    UserAuthenticationData? authData,
+  );
+}
+
+// typedef UserAuthenticationCallback = void Function(
+//   PusherError? error,
+//   UserAuthenticationData? authData,
+// );
 
 extension type UserAuthenticationRequestParams._(JSObject _)
     implements JSObject {
@@ -67,10 +79,17 @@ extension type UserAuthenticationRequestParams._(JSObject _)
   external String socketId;
 }
 
-typedef UserAuthenticationHandler = void Function(
-  UserAuthenticationRequestParams params,
-  UserAuthenticationCallback callback,
-);
+extension type UserAuthenticationHandler._(JSObject _) implements JSObject {
+  external void call(
+    UserAuthenticationRequestParams params,
+    UserAuthenticationCallback callback,
+  );
+}
+
+// typedef UserAuthenticationHandler = void Function(
+//   UserAuthenticationRequestParams params,
+//   UserAuthenticationCallback callback,
+// );
 
 extension type AuthOptionsT<AuthHandler>._(JSObject _) implements JSObject {
   // Allow 'ajax' | 'jsonp'
@@ -78,15 +97,15 @@ extension type AuthOptionsT<AuthHandler>._(JSObject _) implements JSObject {
 
   external String endpoint;
 
-  external dynamic params;
+  external JSAny params;
 
-  external dynamic headers;
+  external JSAny headers;
 
-  external dynamic Function()? paramsProvider;
+  external JSFunction? paramsProvider;
 
-  external dynamic Function()? headersProvider;
+  external JSFunction? headersProvider;
 
-  external AuthHandler? customHandler;
+  // external AuthHandler? customHandler;
 }
 
 typedef UserAuthenticationOptions = AuthOptionsT<UserAuthenticationHandler>;

@@ -44,12 +44,12 @@ extension type ConnectionManager._(Dispatcher _) implements Dispatcher {
 
   external void connect();
 
-  external bool send(dynamic data);
+  external bool send(JSAny data);
 
   @JS('send_event')
   external bool sendEvent(
     String name,
-    dynamic data, [
+    JSAny data, [
     String? channel,
   ]);
 

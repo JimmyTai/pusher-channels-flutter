@@ -1,9 +1,7 @@
 import 'dart:js_interop';
 
-import 'auth/options.dart';
-
 /// Allow 'ws' | 'wss' | 'xhr_streaming' | 'xhr_polling' | 'sockjs'
-typedef Transport = String;
+typedef Transport = JSString;
 
 extension type Config._(JSObject _) implements JSObject {
   external num activityTimeout;
@@ -35,22 +33,22 @@ extension type Config._(JSObject _) implements JSObject {
 
   external num wssPort;
 
-  external UserAuthenticationHandler userAuthenticator;
+  external JSFunction userAuthenticator;
 
-  external ChannelAuthorizationHandler channelAuthorizer;
+  external JSFunction channelAuthorizer;
 
   @JS('forceTLS')
   external bool? forceTls;
 
   external String? cluster;
 
-  external List<Transport>? disabledTransports;
+  external JSArray<Transport>? disabledTransports;
 
-  external List<Transport>? enabledTransports;
+  external JSArray<Transport>? enabledTransports;
 
   external bool? ignoreNullOrigin;
 
   // external Nacl? nacl;
 
-  external dynamic timelineParams;
+  external JSAny timelineParams;
 }

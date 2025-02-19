@@ -13,7 +13,7 @@ extension type UserFacade._(Dispatcher _) implements Dispatcher {
   external bool signinRequested;
 
   @JS('user_data')
-  external dynamic userData;
+  external JSAny userData;
 
   external Channel serverToUserChannel;
 

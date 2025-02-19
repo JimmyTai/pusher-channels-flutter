@@ -3,22 +3,22 @@ import 'dart:js_interop';
 extension type Members._(JSObject _) implements JSObject {
   external Members();
 
-  external dynamic members;
+  external JSAny members;
 
   external num count;
 
   @JS('myID')
-  external dynamic myId;
+  external JSAny myId;
 
-  external dynamic get(String id);
+  external JSAny get(String id);
 
-  external void each(Function callback);
+  external void each(JSFunction callback);
 
-  external void onSubscription(dynamic subscriptionData);
+  external void onSubscription(JSAny subscriptionData);
 
-  external dynamic addMember(dynamic memberData);
+  external JSAny addMember(JSAny memberData);
 
-  external dynamic removeMember(dynamic memberData);
+  external JSAny removeMember(JSAny memberData);
 
   external void reset();
 }

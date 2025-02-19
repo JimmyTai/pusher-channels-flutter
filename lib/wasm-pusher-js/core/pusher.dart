@@ -14,7 +14,7 @@ extension type Pusher._(JSObject _) implements JSObject {
   external Pusher(String appKey, Options options);
 
   /// STATIC PROPERTIES
-  external static List<Pusher> instances;
+  external static JSArray<Pusher> instances;
 
   external static bool isRead;
 
@@ -27,9 +27,9 @@ extension type Pusher._(JSObject _) implements JSObject {
 
   external static void ready();
 
-  external static void log(dynamic message);
+  external static void log(JSAny message);
 
-  external static dynamic get getClientFeatures;
+  external static JSAny get getClientFeatures;
 
   external String key;
 
@@ -53,7 +53,7 @@ extension type Pusher._(JSObject _) implements JSObject {
 
   external Channel channel(String name);
 
-  external List<Channel> allChannels();
+  external JSArray<Channel> allChannels();
 
   external void connect();
 
@@ -61,21 +61,21 @@ extension type Pusher._(JSObject _) implements JSObject {
 
   external Pusher bind(
     String eventName,
-    Function callback, [
-    dynamic context,
+    JSFunction callback, [
+    JSAny context,
   ]);
 
   external Pusher unbind([
     String? eventName,
-    Function? callback,
-    dynamic context,
+    JSFunction? callback,
+    JSAny context,
   ]);
 
   @JS('bind_global')
-  external Pusher bindGlobal(Function callback);
+  external Pusher bindGlobal(JSFunction callback);
 
   @JS('unbind_global')
-  external Pusher unbindGlobal([Function? callback]);
+  external Pusher unbindGlobal([JSFunction? callback]);
 
   @JS('unbind_all')
   external void unbindAll();
@@ -89,7 +89,7 @@ extension type Pusher._(JSObject _) implements JSObject {
   @JS('send_event')
   external bool sendEvent(
     String eventName, [
-    dynamic data,
+    JSAny data,
     String? channel,
   ]);
 

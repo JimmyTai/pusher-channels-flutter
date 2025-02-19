@@ -3,15 +3,29 @@ import 'dart:js_interop';
 import '../channels/channel.dart';
 import 'options.dart';
 
-extension type DeprecatedChannelAuthorizer._(JSObject _) implements JSObject {
-  external void authorize(
+extension type DeprecatedChannelAuthorizerAuthorize._(JSObject _)
+    implements JSObject {
+  external void call(
     String socketId,
     ChannelAuthorizationCallback callback,
   );
 }
 
-typedef ChannelAuthorizerGenerator = DeprecatedChannelAuthorizer Function(
-    Channel channel, DeprecatedAuthorizerOptions options);
+extension type DeprecatedChannelAuthorizer._(JSObject _) implements JSObject {
+  external DeprecatedChannelAuthorizer({
+    DeprecatedChannelAuthorizerAuthorize authorize,
+  });
+
+  external DeprecatedChannelAuthorizerAuthorize authorize;
+}
+
+extension type ChannelAuthorizerGenerator._(JSObject _) implements JSObject {
+  external DeprecatedChannelAuthorizer call(
+      Channel channel, DeprecatedAuthorizerOptions options);
+}
+
+// typedef ChannelAuthorizerGenerator = DeprecatedChannelAuthorizer Function(
+//     Channel channel, DeprecatedAuthorizerOptions options);
 
 extension type DeprecatedAuthorizerOptions(JSObject _) implements JSObject {
   /// Allow 'ajax' | 'jsonp'
@@ -21,7 +35,7 @@ extension type DeprecatedAuthorizerOptions(JSObject _) implements JSObject {
 }
 
 extension type DeprecatedAuthOptions(JSObject _) implements JSObject {
-  external dynamic params;
+  external JSAny params;
 
-  external dynamic headers;
+  external JSAny headers;
 }
