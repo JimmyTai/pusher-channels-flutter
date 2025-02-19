@@ -10,17 +10,12 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:js/js_util.dart' as js_util;
 
 import 'wasm-pusher-js/core/auth/deprecated_channel_authorizer.dart';
+import 'wasm-pusher-js/core/auth/options.dart';
 import 'wasm-pusher-js/core/channels/channel.dart';
 import 'wasm-pusher-js/core/channels/presence_channel.dart';
 import 'wasm-pusher-js/core/options.dart';
 import 'wasm-pusher-js/core/pusher.dart';
-
-@JS('window')
-external JSWindow window;
-
-extension type JSWindow._(JSObject _) implements JSObject {
-  external Options jimmy;
-}
+import 'wasm-pusher-js/error.dart';
 
 @JS('JSON.stringify')
 external String stringify(JSObject obj);
@@ -186,29 +181,33 @@ class PusherChannelsFlutterWasm {
 
   DeprecatedChannelAuthorizer onAuthorizer(
       Channel channel, DeprecatedAuthorizerOptions options) {
-    return DeprecatedChannelAuthorizer(
-        // authorize: () {
+    void authorize(JSString socketId, JSFunction callback) async {
+      callback = callback as ChannelAuthorizationCallback;
+      try {
+        var authData = await methodChannel!.invokeMethod('onAuthorizer', {
+          'socketId': socketId,
+          'channelName': channel.name,
+          'options': options,
+        });
+        callback(
+            null,
+            ChannelAuthorizationData(
+                auth: authData['auth'],
+                channelData: authData['channel_data'],
+                sharedSecret: authData['shared_secret']));
+      } catch (e) {
+        callback(
+            PusherError(
+              name: 'PusherError',
+              message: e.toString(),
+            ),
+            ChannelAuthorizationData(auth: ''));
+      }
+    }
 
-        // }
-        // authorize: (socketId, callback) {
-        //   try {
-        //     var authData = await methodChannel!.invokeMethod('onAuthorizer', {
-        //       'socketId': socketId,
-        //       'channelName': channel.name,
-        //       'options': options,
-        //     });
-        //     callback(
-        //         null,
-        //         ChannelAuthorizationData(
-        //             auth: authData['auth'],
-        //             channelData: authData['channel_data'],
-        //             sharedSecret: authData['shared_secret']));
-        //   } catch (e) {
-        //     callback(PusherError(e.toString(), -1),
-        //         ChannelAuthorizationData(auth: ''));
-        //   }
-        // },
-        );
+    return DeprecatedChannelAuthorizer(
+      authorize: authorize.toJS,
+    );
   }
 
   void subscribe(MethodCall call) {
@@ -269,10 +268,9 @@ class PusherChannelsFlutterWasm {
     if (call.arguments['logToConsole'] != null) {
       Pusher.logToConsole = call.arguments['logToConsole'];
     }
-    if (call.arguments['authorizer'] != null) {
-      // options.authorizer = js_util.allowInterop(onAuthorizer);
-    }
-    window.jimmy = options;
+    // if (call.arguments['authorizer'] != null) {
+      options.authorizer = onAuthorizer.toJS;
+    // }
     pusher = Pusher(call.arguments['apiKey'], options);
     pusher!.connection.bind('error', onError.toJS);
     pusher!.connection.bind('message', onMessage.toJS);

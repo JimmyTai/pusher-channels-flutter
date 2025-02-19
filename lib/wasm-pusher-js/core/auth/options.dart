@@ -18,7 +18,7 @@ extension type ChannelAuthorizationData._(JSObject _) implements JSObject {
   external String? sharedSecret;
 }
 
-extension type ChannelAuthorizationCallback._(JSObject _) implements JSObject {
+extension type ChannelAuthorizationCallback._(JSFunction _) implements JSFunction {
   external void call(
     PusherError? error,
     ChannelAuthorizationData? authData,

@@ -9,7 +9,7 @@ extension type Options._(JSObject _) implements JSObject {
     DeprecatedAuthOptions? auth,
     String? authEndpoint,
     String? authTransport,
-    ChannelAuthorizerGenerator? authorizer,
+    JSFunction? authorizer,
     ChannelAuthorizationOptions? channelAuthorization,
     UserAuthenticationOptions? userAuthentication,
     String? cluster,
@@ -46,7 +46,7 @@ extension type Options._(JSObject _) implements JSObject {
   external String? authTransport;
 
   @Deprecated('Use channelAuthorization instead')
-  external ChannelAuthorizerGenerator? authorizer;
+  external JSFunction? authorizer;
 
   external ChannelAuthorizationOptions? channelAuthorization;
 

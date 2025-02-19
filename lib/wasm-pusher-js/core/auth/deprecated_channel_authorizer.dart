@@ -13,10 +13,10 @@ extension type DeprecatedChannelAuthorizerAuthorize._(JSObject _)
 
 extension type DeprecatedChannelAuthorizer._(JSObject _) implements JSObject {
   external DeprecatedChannelAuthorizer({
-    DeprecatedChannelAuthorizerAuthorize authorize,
+    JSFunction authorize,
   });
 
-  external DeprecatedChannelAuthorizerAuthorize authorize;
+  external JSFunction authorize;
 }
 
 extension type ChannelAuthorizerGenerator._(JSObject _) implements JSObject {
